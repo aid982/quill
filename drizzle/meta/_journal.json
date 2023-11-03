@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1697459575790,
+      "tag": "0000_dapper_cassandra_nova",
+      "breakpoints": true
+    }
+  ]
+}
