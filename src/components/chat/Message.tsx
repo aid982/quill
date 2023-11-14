@@ -61,7 +61,7 @@ const Message = forwardRef<HTMLDivElement, Props>(
             ) : (
               message.text
             )}
-            {message.id !== -1 ? (
+            {message.id !== 'loading' ? (
               <div
                 className={cn("text-xs select-none mt-2 w-full text-right", {
                   "text-zinc-500": !message.isUserMessage,
