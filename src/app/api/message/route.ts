@@ -1,6 +1,7 @@
 import { files, messages } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { openai } from "@/lib/openai";
 import { pinecone } from "@/lib/pinecone";
 import { SendMessageValidator } from "@/lib/validators/SendMessageValidator";
 import { and, eq, sql } from "drizzle-orm";
@@ -8,11 +9,6 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { NextRequest } from "next/server";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-import OpenAI from "openai"
-
-export const openai = new OpenAI({
-    apiKey:process.env.OPEN_AI
-})
 
 export const POST = async (req: NextRequest) => {
   // api for asking question to a PDF
