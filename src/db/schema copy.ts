@@ -1,29 +1,24 @@
+import { integer, sqliteTable, text, primaryKey,SQLiteBoolean} from "drizzle-orm/sqlite-core"
 import type { AdapterAccount } from "@auth/core/adapters"
 import { sql } from "drizzle-orm";
-import { boolean, integer, pgSchema, pgTable, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
-import { v4 as uuidv4 } from 'uuid';
 
 
-const createId = ()=>{
-  const e= uuidv4()
-}
-
-export const users =pgTable("user", {
-  id: text("id").primaryKey().notNull(),
+export const users = sqliteTable("user", {
+  id: text("id").notNull().primaryKey(),
   name: text("name"),
   email: text("email").notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   image: text("image"),
   stripePriceId: text("stripePriceId"),  
   stripeSubscriptionId: text("stripeSubscriptionId"),  
   stripeCustomerId  : text("stripeCustomerId"),    
-  stripeCurrentPeriodEnd: timestamp("stripeCurrentPeriodEnd", { mode: "date" }),
+  stripeCurrentPeriodEnd: integer("stripeCurrentPeriodEnd", { mode: "timestamp_ms" }),
 })
 
 
 
-export const files = pgTable("file", {
-  id: text('id').primaryKey().notNull().$defaultFn(()=>uuidv4()),  
+export const files = sqliteTable("file", {
+  id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
   name: text("name"),
   uploadStatus:text("uploadStatus",{enum:[
     "PENDING",
@@ -40,7 +35,7 @@ export const files = pgTable("file", {
   
 })
 
-export const accounts = pgTable(
+export const accounts = sqliteTable(
   "account",
   {
     userId: text("userId")
@@ -62,35 +57,35 @@ export const accounts = pgTable(
   })
 )
 
-export const sessions = pgTable("session", {
+export const sessions = sqliteTable("session", {
   sessionToken: text("sessionToken").notNull().primaryKey(),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-   expires: timestamp("expires", { mode: "date" }).notNull(),
+  expires: integer("expires", { mode: "timestamp_ms" }).notNull()
 })
 
-export const verificationTokens = pgTable(
+export const verificationTokens = sqliteTable(
   "verificationToken",
   {
     identifier: text("identifier").notNull(),
     token: text("token").notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
+    expires: integer("expires", { mode: "timestamp_ms" }).notNull()
   },
   (vt) => ({
     compoundKey: primaryKey(vt.identifier, vt.token)
   })
 )
 
-export const messages = pgTable("messages", {
-  id: text('id').primaryKey().notNull().$defaultFn(()=>uuidv4()),
+export const messages = sqliteTable("messages", {
+  id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
   text: text("text").notNull(),
-  isUserMessage:boolean('isUserMessage'),
+  isUserMessage:integer('isUserMessage',{mode:'boolean'}),
   createdAt: text("createdAt").default(sql`CURRENT_TIMESTAMP`).notNull(),
   updateAt: text("updateAt").default(sql`CURRENT_TIMESTAMP`),
   userId: text("userId")  
   .references(() => users.id, { onDelete: "cascade" }),
-  fileId: text("fileId")
+  fileId: integer("fileId")
   .notNull()
   .references(() => files.id, { onDelete: "cascade" }),
   

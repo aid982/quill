@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 type Props = {};
 
 function DashBoard({}: Props) {
-  const [curDelFile,setCurDelFile] = useState<number|null>(null);
+  const [curDelFile,setCurDelFile] = useState<string|null>(null);
   const utils = trpc.useContext();  
   const { data: files, isLoading } = trpc.getUserFiles.useQuery();
   const { mutate: deleteFile,isLoading:deleteIs } = trpc.deleteFile.useMutation({

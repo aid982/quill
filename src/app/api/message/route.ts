@@ -67,15 +67,16 @@ export const POST = async (req: NextRequest) => {
 
   console.log(vectorStore);
 
-  const results = await vectorStore.similaritySearch(message,1);
-  console.log(results);
-  console.log(results.length);
-  console.log(prevMessages);
+  const results = await vectorStore.similaritySearch(message, 2);
+  console.log(message)
+  console.log(results);  
 
   const formattedPrevMessages = prevMessages.map((msg) => ({
     role: msg.isUserMessage ? ("user" as const) : ("assistant" as const),
     content: msg.text,
   }));
+
+  const withoutContext = false;
 
   const openAIMessage = [
     {
@@ -96,33 +97,40 @@ ${formattedPrevMessages.map((message) => {
 })}
 
 \n----------------\n
-
-CONTEXT:
-${results.map((r) => r.pageContent).join("\n\n")}
+${withoutContext ? '':`CONTEXT:
+${results.map((r) => r.pageContent).join("\n\n")}`}
 
 USER INPUT: ${message}`,
     },
   ];
 
-  console.log(openAIMessage)
+  console.log(openAIMessage);
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    temperature: 0,
-    stream: true,
-    messages: openAIMessage,    
-  });
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      temperature: 0,
+      stream: true,
+      messages: openAIMessage,
+    });
+    const stream = OpenAIStream(response, {
+      async onCompletion(completion) {
+        console.log(completion)
+        await db.insert(messages).values({
+          text: completion,
+          isUserMessage: false,
+          fileId,
+          userId: user.id,
+        });
+      },
+    });
+    return new StreamingTextResponse(stream);
+    
+  } catch (error) {
+    console.log(error)
+    return new Response("SERVER ERROR", { status: 500 });
+    
+  }
 
-  const stream = OpenAIStream(response, {
-    async onCompletion(completion) {
-      await db.insert(messages).values({
-        text: completion,
-        isUserMessage: false,
-        fileId,
-        userId: user.id,
-      });
-    },
-  });
-
-  return new StreamingTextResponse(stream);
+  
 };

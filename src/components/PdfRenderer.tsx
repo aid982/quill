@@ -39,12 +39,12 @@ function PdfRenderer({ url }: Props) {
   const [numPages, setNumPages] = useState<number>();
   const [curPages, setCurPages] = useState<number>(1);
   const [scale, setScale] = useState<number>(1);
-  const [renderedScale, setRenderedScale] = useState<number|null>(null);
+  const [renderedScale, setRenderedScale] = useState<number | null>(null);
   const { ref, width } = useResizeDetector();
   const [rotation, setRotation] = useState<number>(0);
 
-  const isLoading = renderedScale!==scale;
-  
+  const isLoading = renderedScale !== scale;
+
   const PageValidation = z.object({
     page: z
       .string()
@@ -67,19 +67,16 @@ function PdfRenderer({ url }: Props) {
     setValue("page", page);
   };
   return (
-    <div className="w-full bg-white rounded-md flex flex-col items-center">
-      <div className="h-14 w-full border-b border-zinc-200 flex justify-between items-center">
-        {/*TOP BAR*/}
+    <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
+      <div className="h-15 w-full border-b border-zinc-200 flex items-center justify-between px-2">
         <div className="flex items-center gap-1.5">
           <Button
             aria-label="previus page"
             variant={"ghost"}
             onClick={() => {
               setCurPages((prev) => (prev - 1 > 1 ? prev - 1 : 1));
-              setValue("page",String(curPages - 1 > 1 ? curPages - 1 : 1))
-            }
-            
-          }
+              setValue("page", String(curPages - 1 > 1 ? curPages - 1 : 1));
+            }}
           >
             <ChevronDown className="w-4 h-4" />
           </Button>
@@ -109,7 +106,7 @@ function PdfRenderer({ url }: Props) {
               setCurPages((prev) =>
                 prev + 1 > numPages! ? numPages! : prev + 1
               );
-              setValue("page",String(curPages + 1))
+              setValue("page", String(curPages + 1));
             }}
           >
             <ChevronUp className="w-4 h-4" />
@@ -147,13 +144,16 @@ function PdfRenderer({ url }: Props) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button aria-label="Rotate 90%" variant={"ghost"} onClick={()=>{
-            setRotation((prev)=>prev+90)
-          }}>
-            <RotateCw className="w-4 h-4"/>
+          <Button
+            aria-label="Rotate 90%"
+            variant={"ghost"}
+            onClick={() => {
+              setRotation((prev) => prev + 90);
+            }}
+          >
+            <RotateCw className="w-4 h-4" />
           </Button>
-          <PdfFullScreen url={url}/>
-          
+          <PdfFullScreen url={url} />
         </div>
       </div>
       <div className="flex-1 w-full max-h-screen">
@@ -177,24 +177,29 @@ function PdfRenderer({ url }: Props) {
                   variant: "destructive",
                 });
               }}
-            >             
-              {isLoading&&renderedScale ? <Page
+            >
+              {isLoading && renderedScale ? (
+                <Page
+                  width={width ? width : 1}
+                  pageNumber={curPages}
+                  scale={scale}
+                  rotate={rotation}
+                  key={"$" + renderedScale}
+                />
+              ) : null}
+              <Page
+                className={cn(isLoading ? "hidden" : "")}
                 width={width ? width : 1}
                 pageNumber={curPages}
                 scale={scale}
                 rotate={rotation}
-                key={"$"+renderedScale}
-              /> : null}
-              <Page className={cn(isLoading ? "hidden":"")}
-                width={width ? width : 1}
-                pageNumber={curPages}
-                scale={scale}
-                rotate={rotation}
-                key={"@"+scale}
+                key={"@" + scale}
                 loading={
-                  <div className="flex justify-center"><Loader2 className="mt-24 h-6 w-6 animate-spin"/></div>
+                  <div className="flex justify-center">
+                    <Loader2 className="mt-24 h-6 w-6 animate-spin" />
+                  </div>
                 }
-                onRenderSuccess={()=>setRenderedScale(scale)}
+                onRenderSuccess={() => setRenderedScale(scale)}
               />
             </Document>
           </div>

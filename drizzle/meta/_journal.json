@@ -1,12 +1,61 @@
 {
   "version": "5",
-  "dialect": "sqlite",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1697459575790,
-      "tag": "0000_dapper_cassandra_nova",
+      "when": 1699627066936,
+      "tag": "0000_equal_agent_zero",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1699627819656,
+      "tag": "0001_robust_tombstone",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1699627969836,
+      "tag": "0002_slow_mariko_yashida",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1699628133639,
+      "tag": "0003_chief_ultragirl",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1699628670449,
+      "tag": "0004_optimal_the_stranger",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1699628722823,
+      "tag": "0005_premium_mauler",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1699709530523,
+      "tag": "0006_black_magma",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1699710051038,
+      "tag": "0007_happy_firebrand",
       "breakpoints": true
     }
   ]

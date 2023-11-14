@@ -1,12 +1,12 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "975f7428-4a31-46d3-a278-bfc223b57c3e",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "151b745c-beda-42b1-8a94-4e5acc8a4314",
+  "prevId": "56e0802f-f4c6-4861-97e7-0dee1ed0e855",
   "tables": {
     "account": {
       "name": "account",
-      "schema": "quill",
+      "schema": "",
       "columns": {
         "userId": {
           "name": "userId",
@@ -104,14 +104,13 @@
     },
     "file": {
       "name": "file",
-      "schema": "quill",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -173,14 +172,13 @@
     },
     "messages": {
       "name": "messages",
-      "schema": "quill",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "primaryKey": false,
+          "notNull": true
         },
         "text": {
           "name": "text",
@@ -255,7 +253,7 @@
     },
     "session": {
       "name": "session",
-      "schema": "quill",
+      "schema": "",
       "columns": {
         "sessionToken": {
           "name": "sessionToken",
@@ -297,7 +295,7 @@
     },
     "user": {
       "name": "user",
-      "schema": "quill",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -361,7 +359,7 @@
     },
     "verificationToken": {
       "name": "verificationToken",
-      "schema": "quill",
+      "schema": "",
       "columns": {
         "identifier": {
           "name": "identifier",
@@ -397,9 +395,7 @@
     }
   },
   "enums": {},
-  "schemas": {
-    "quill": "quill"
-  },
+  "schemas": {},
   "_meta": {
     "schemas": {},
     "tables": {},

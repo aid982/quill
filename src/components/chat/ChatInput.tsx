@@ -40,7 +40,8 @@ function ChatInput({ isDisabled }: Props) {
               <Button
                 className="absolute bottom-1.5 right-[8px]"
                 type="submit"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();                  
                   addMessage();
                   textAreaRef.current?.focus();
                 }}

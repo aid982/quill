@@ -8,7 +8,7 @@ import { buttonVariants } from "../ui/button";
 import Link from "next/link";
 import { ChatContextProvider } from "./ChatContext";
 type Props = {
-  fileId: number;
+  fileId: string;
 };
 
 function Chatwrapper({ fileId }: Props) {
@@ -87,9 +87,9 @@ function Chatwrapper({ fileId }: Props) {
 
   return (
     <ChatContextProvider fileId={fileId}>
-      <div className="justify-between gap-2 relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col">
-        <div className="flex-1 justify-between flex flex-col mb-28">
-          <Messages />
+      <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
+        <div className="flex-1 justify-between flex flex-col mb-32">
+          <Messages fileId={fileId} />
         </div>
         <ChatInput isDisabled={false} />
       </div>

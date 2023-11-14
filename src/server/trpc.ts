@@ -17,8 +17,7 @@ const isAuth = middleware(async (opts)=>{
     const session =await auth();
     //console.log(session)
     if(!session) throw new TRPCError({code:"UNAUTHORIZED"})
-    const {user} = session;
-    console.log(user)
+    const {user} = session;   
 
     return opts.next({
         ctx:{

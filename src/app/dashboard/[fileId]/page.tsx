@@ -21,7 +21,7 @@ async function page({ params }: Props) {
   const curFile = await db
     .select()
     .from(files)
-    .where(eq(files.id, Number(fileId)));
+    .where(eq(files.id, String(fileId)));
   if (curFile.length === 0) notFound();
   const file = curFile[0];
   return (
@@ -29,16 +29,14 @@ async function page({ params }: Props) {
       <div className='mx-auto w-full max-w-8xl grow lg:flex xl:px-2'>
         {/* Left sidebar & main wrapper */}
         <div className='flex-1 xl:flex'>
-          <div className='px-4 py-6 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6 '>
-            {/* Main area  <PdfRenderer url={file.url} /> */}
-            <PdfRenderer url={file.url!}/>
-
+          <div className='px-4 py-6 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6'>
+            {/* Main area */}
+            <PdfRenderer url={file.url!} />
           </div>
         </div>
 
-        <div className='shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0 '>
-            <Chatwrapper fileId={file.id}/>
-          
+        <div className='shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0'>
+          <Chatwrapper  fileId={file.id} />
         </div>
       </div>
     </div>

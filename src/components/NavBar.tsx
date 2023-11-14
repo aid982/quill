@@ -2,8 +2,9 @@ import React from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
-import LoginBtn from "./login-btn";
+import LoginBtn from "./UserAccountNav";
 import { auth } from "@/lib/auth";
+import UserAccountNav from "./UserAccountNav";
 
 type Props = {};
 
@@ -17,11 +18,13 @@ async function NavBar({}: Props) {
           <Link href="/" className="flex z-40 font-semibold">
             <span>Quill</span>
           </Link>
+          <div className="flex sm:hidden">
+          <UserAccountNav session={session}/>
+          </div>
 
           {/* Mobile navbar */}
           <div className="hidden items-center space-x-4 sm:flex">
-            <>
-              <Link
+            <>{ !session ? <Link
                 href={"/pricing"}
                 className={buttonVariants({
                   variant: "ghost",
@@ -29,8 +32,16 @@ async function NavBar({}: Props) {
                 })}
               >
                 Pricing
-              </Link>
-              <LoginBtn session={session}></LoginBtn>
+              </Link>: <Link
+                href={"/dashboard"}
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                })}
+              >
+                Dashboard
+              </Link>}              
+              <UserAccountNav session={session}/>              
             </>
           </div>
         </div>
