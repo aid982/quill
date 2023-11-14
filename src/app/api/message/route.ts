@@ -8,7 +8,7 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { NextRequest } from "next/server";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-import OpenAI from "OpenAI"
+import OpenAI from "openai"
 
 export const openai = new OpenAI({
     apiKey:process.env.OPEN_AI
