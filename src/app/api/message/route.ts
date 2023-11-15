@@ -10,6 +10,7 @@ import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { NextRequest } from "next/server";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
+export const runtime = 'edge';
 
 export const POST = async (req: NextRequest) => {
   // api for asking question to a PDF
