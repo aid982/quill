@@ -1,6 +1,5 @@
 import { auth } from '@/lib/auth';
 import { TRPCError, initTRPC } from '@trpc/server';
-import { getServerSession } from 'next-auth';
  
 /**
  * Initialization of tRPC backend
