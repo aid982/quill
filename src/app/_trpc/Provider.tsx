@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import React, { useState } from 'react';
 import { trpc } from './client';
+import { absoluteURL } from '@/lib/utils';
 
 export default function Provider({children}:{children:React.ReactNode}) {
   const [queryClient] = useState(() => new QueryClient());
@@ -10,7 +11,7 @@ export default function Provider({children}:{children:React.ReactNode}) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: process.env.HOST+'/api/trpc',
+          url: absoluteURL('/api/trpc'),
 
           // You can pass any HTTP headers you wish here
           /*async headers() {

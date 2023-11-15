@@ -1,10 +1,11 @@
 import {  httpBatchLink } from '@trpc/client';
 import  {  appRouter } from '@/server';
+import { absoluteURL } from '@/lib/utils';
 
 export const serverClient = appRouter.createCaller({
     links:[
         httpBatchLink({
-            url: process.env.HOST+'/api/trpc',
+            url: absoluteURL('/api/trpc'),
         })
 
     ]
