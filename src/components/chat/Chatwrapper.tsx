@@ -9,9 +9,10 @@ import Link from "next/link";
 import { ChatContextProvider } from "./ChatContext";
 type Props = {
   fileId: string;
+  userId:string
 };
 
-function Chatwrapper({ fileId }: Props) {
+function Chatwrapper({ fileId,userId }: Props) {
   const { data, isLoading } = trpc.getFileUploadStatus.useQuery(
     { fileId },
     {
@@ -86,7 +87,7 @@ function Chatwrapper({ fileId }: Props) {
     );
 
   return (
-    <ChatContextProvider fileId={fileId}>
+    <ChatContextProvider  userId={userId} fileId={fileId}>
       <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
         <div className="flex-1 justify-between flex flex-col mb-32">
           <Messages fileId={fileId} />

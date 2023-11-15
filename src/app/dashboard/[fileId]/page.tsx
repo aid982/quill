@@ -17,6 +17,7 @@ async function page({ params }: Props) {
   const { fileId } = params;
   const session = await auth();
   if (!session) redirect(`/api/auth/signin?origin=dashboard/${fileId}`);
+  const {user} = session;
 
   const curFile = await db
     .select()
@@ -36,7 +37,7 @@ async function page({ params }: Props) {
         </div>
 
         <div className='shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0'>
-          <Chatwrapper  fileId={file.id} />
+          <Chatwrapper userId={user.id} fileId={file.id} />
         </div>
       </div>
     </div>

@@ -20,8 +20,9 @@ const ChatContext = createContext<StreamResponse>({
 interface Props {
   fileId: string;
   children: ReactNode;
+  userId:string
 }
-export const ChatContextProvider = ({ fileId, children }: Props) => {
+export const ChatContextProvider = ({ fileId, children,userId }: Props) => {
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {} = useToast();
@@ -42,6 +43,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
         body: JSON.stringify({
           fileId,
           message,
+          userId
         }),
       });
       console.log(resp.body)

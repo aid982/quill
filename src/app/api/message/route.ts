@@ -1,5 +1,5 @@
 import { files, messages } from "@/db/schema";
-import { auth } from "@/lib/auth";
+//import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { openai } from "@/lib/openai";
 import { pinecone } from "@/lib/pinecone";
@@ -10,20 +10,21 @@ import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { NextRequest } from "next/server";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
+
 export const POST = async (req: NextRequest) => {
   // api for asking question to a PDF
-  const session = await auth();
-  if (!session) return new Response("UNAUTHORIZED", { status: 401 });
-  const { user } = session;
+  //const session = await auth();
+  //if (!session) return new Response("UNAUTHORIZED", { status: 401 });
+  //const { user } = session;
 
   const body = await req.json();
 
-  const { fileId, message } = SendMessageValidator.parse(body);
+  const { fileId, message,userId } = SendMessageValidator.parse(body);
 
   const fileArray = await db
     .select()
     .from(files)
-    .where(and(eq(files.id, fileId), eq(files.userId, user.id)));
+    .where(and(eq(files.id, fileId), eq(files.userId, userId)));
   console.log(fileArray);
 
   if (fileArray.length === 0) {
@@ -42,7 +43,7 @@ export const POST = async (req: NextRequest) => {
       .insert(messages)
       .values({
         fileId: file.id,
-        userId: user.id,
+        userId: userId,
         text: message,
         isUserMessage: true,
       })
@@ -120,7 +121,7 @@ USER INPUT: ${message}`,
           text: completion,
           isUserMessage: false,
           fileId,
-          userId: user.id,
+          userId: userId,
         });
       },
     });
