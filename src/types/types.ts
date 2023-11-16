@@ -6,6 +6,8 @@ declare module "next-auth" {
         email:string
         admin:Boolean
         id:string
-      }
+      },      
     }
+    
+
   }

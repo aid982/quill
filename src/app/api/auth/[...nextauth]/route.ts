@@ -6,8 +6,14 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions: NextAuthOptions = {
-  adapter: DrizzleAdapter(db),
+export const authOptions: NextAuthOptions = {  
+  adapter: DrizzleAdapter(db),   
+  session: {
+    strategy: "jwt", // See https://next-auth.js.org/configuration/nextjs#caveats, middleware (currently) doesn't support the "database" strategy which is used by default when using an adapter (https://next-auth.js.org/configuration/options#session)
+  },
+  jwt:{
+    maxAge: 60 * 60 * 24 * 30,
+  },
   providers: [
     EmailProvider({
       server: {
@@ -27,40 +33,37 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-  callbacks: {
+  
+  callbacks: {    
     async session({ session, token, user }) {      
+      //console.log('Ses tok',token)
+      //console.log(session)
+      //console.log(user)
       const data = {
         ...session,
         user:{
-          ...user
-        }
+          ...token.user!
+        },
+        
       }
+    //  console.log(data)
       
       return data;
     },
-    async signIn({ user, account, profile, email, credentials }) {
-      let isAllowedToSignIn;
-      if (!user.email) return false;
-     /* const data = await db
-        .select()
-        .from(users)
-        .where(eq(users.email, user.email));
-      console.log(data);
-      if (data && data.length > 0)
-      */
-      isAllowedToSignIn = true;
-
-      console.log(isAllowedToSignIn)
-
-      if (isAllowedToSignIn) {
-        return true;
-      } else {
-        // Return false to display a default error message
-        return false;
-        // Or you can return a URL to redirect to:
-        // return '/unauthorized'
-      }
-    },
+    jwt: ({token,user})=>{
+      if(user) {        
+        token = {
+          ...token,
+          user:{
+            ...user
+          }
+        }
+        
+      }      
+      return token
+      
+    }
+    
   },
 };
 
