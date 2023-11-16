@@ -2,12 +2,13 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { trpc } from "@/app/_trpc/client";
+import { absoluteURL } from "@/lib/utils";
 
 const UpgradeButton = ()=>{
     const {mutate:createStripeSession} = trpc.createStripeSession.useMutation({
         onSuccess:({url})=>{
             console.log(url)
-            window.location.href = url ?? "/dashboard/billing"
+            window.location.href =absoluteURL("/dashboard/billing");
 
 
 
