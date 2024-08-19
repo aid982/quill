@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth/core": "^0.16.1",
     "@auth/drizzle-adapter": "^0.3.3",
+    "@google/generative-ai": "^0.17.0",
     "@hookform/resolvers": "^3.3.2",
     "@mantine/hooks": "^7.2.0",
     "@neondatabase/serverless": "^0.6.0",
@@ -29,7 +30,7 @@
     "@trpc/react-query": "^10.40.0",
     "@trpc/server": "^10.40.0",
     "@uploadthing/react": "^5.7.0",
-    "ai": "^2.2.20",
+    "ai": "^2.2.37",
     "better-sqlite3": "^9.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
